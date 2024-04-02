@@ -4,11 +4,11 @@ import { Avatar, Card, CardHeader, Collapse, IconButton, Typography } from "@mui
 import { ExpandMore, FavoriteBorderOutlined, MoreVertOutlined, Share } from "@mui/icons-material";
 import { CardActions, CardContent, CardMedia } from "@mui/material";
 import Header from '../Components/header'
+import { useNavigate } from "react-router-dom";
 
 export default function Movies() {
   const [expanded, setExpanded] = useState({});
-  console.log('moviedata: ', moviedata);
-
+  const navigate = useNavigate();
   const handleExpandClick = (movieId) => {
     setExpanded((prevState) => ({
       ...prevState,
@@ -16,12 +16,15 @@ export default function Movies() {
     }));
   };
 
+  //Navigation with data sharing
+  //navigate("/new-route", { state: { key: "value" } });
+
   return (
     <>
     <Header />
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
       {moviedata.movies.map((movie, index) => (
-        <Card key={index} sx={{ width: 250, marginLeft: 7, marginTop: 4 }}>
+        <Card key={index} sx={{ width: 250, marginLeft: 7, marginTop: 4 }} onClick={() => navigate("/moviedetails", { state: {movieid: movie.id}})}>
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: 'red[500]' }} aria-label="recipe">
