@@ -27,13 +27,8 @@ import { useNavigate } from "react-router-dom";
 export default function Movies() {
   const [expanded, setExpanded] = useState({});
   const navigate = useNavigate();
-  const [liked, setLiked] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
-
-  //Method for like
-  const toggleLike = () => {
-    setLiked(!liked);
-  };
+  const [likedMovies, setLikedMovies] = useState([]);
 
   //Method for Avatar Color
   const getAvatarBackgroundColor = (initial) => {
@@ -59,7 +54,7 @@ export default function Movies() {
       S: "#607d8b",
       T: "#333333",
       U: "#666666",
-      V: "#999999",
+      V: "#757ce8",
       W: "#cccccc",
       X: "#dddddd",
       Y: "#bbbbbb",
@@ -72,21 +67,39 @@ export default function Movies() {
     return colors[firstLetter] || defaultColor;
   };
 
-// Method to handle saving or unsaving a movie
-const handleSave = (movie) => {
-  if (isMovieSaved(movie)) {
-    // If the movie is already saved, remove it from savedMovies
-    setSavedMovies(savedMovies.filter(savedMovie => savedMovie.id !== movie.id));
-  } else {
-    // If the movie is not saved, add it to savedMovies
-    setSavedMovies([...savedMovies, movie]);
-  }
-};
+  // Method to handle saving or unsaving a movie
+  const handleSave = (movie) => {
+    if (isMovieSaved(movie)) {
+      // If the movie is already saved, remove it from savedMovies
+      setSavedMovies(
+        savedMovies.filter((savedMovie) => savedMovie.id !== movie.id)
+      );
+    } else {
+      // If the movie is not saved, add it to savedMovies
+      setSavedMovies([...savedMovies, movie]);
+    }
+  };
 
   // Method to check if a movie is saved
   const isMovieSaved = (movie) => {
     return savedMovies.some((savedMovie) => savedMovie.id === movie.id);
   };
+
+  //Methods to handle like movie
+  const handleLike = (movie) => {
+    if(isMovieLiked(movie)) {
+      setLikedMovies(
+        likedMovies.filter((likedmovie) => likedmovie.id !== movie.id)
+      );
+    } else {
+      setLikedMovies([...likedMovies, movie]);
+    }
+  };
+
+  //Methods to check is liked
+  const isMovieLiked = (movie) => {
+    return likedMovies.some((likeMovie) => likeMovie.id === movie.id);
+  }
 
   return (
     <>
@@ -99,7 +112,6 @@ const handleSave = (movie) => {
                 <Avatar
                   sx={{
                     bgcolor: getAvatarBackgroundColor(movie.title),
-                    // bgcolor: "red", // Set your desired background color here
                     color: "white", // Set text color to contrast with background
                     width: 48, // Adjust size as needed
                     height: 48, // Adjust size as needed
@@ -109,14 +121,6 @@ const handleSave = (movie) => {
                 >
                   {movie?.title ? movie?.title.charAt(0).toUpperCase() : "M"}
                 </Avatar>
-                // <Avatar sx={{ bgcolor: 'red[500]' }} aria-label="recipe">
-                //   {movie?.title ? movie?.title.charAt(0).toUpperCase() : 'M'}
-                // </Avatar>
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertOutlined />
-                </IconButton>
               }
               title={movie.title}
               subheader={movie.release_date}
@@ -133,7 +137,13 @@ const handleSave = (movie) => {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-      
+            <IconButton aria-label="add to favorites" onClick={() => handleLike(movie)}>
+              {isMovieLiked(movie) ? (
+                <Favorite style={{ color: "red" }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
+            </IconButton>
               <IconButton aria-label="share">
                 <Share />
               </IconButton>

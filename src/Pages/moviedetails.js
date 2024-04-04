@@ -1,5 +1,7 @@
 import {
   ArrowBack,
+  BookmarkAdd,
+  BookmarkAdded,
   ExpandMore,
   Favorite,
   FavoriteBorderOutlined,
@@ -15,6 +17,7 @@ import {
   CardMedia,
   Collapse,
   IconButton,
+  Rating,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -26,6 +29,7 @@ export default function MovieDetails() {
   const location = useLocation();
   const movieId = location.state.movieid;
   const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
   const navigate = useNavigate();
 
   //Movie Data
@@ -36,6 +40,11 @@ export default function MovieDetails() {
   const toggleLike = () => {
     setLiked(!liked);
   };
+
+  //Method for save
+  const toggleSave = () => {
+    setSaved(!saved)
+  }
 
   //Method for handle back click
   const handleBack = () => {
@@ -66,7 +75,7 @@ export default function MovieDetails() {
       S: "#607d8b",
       T: "#333333",
       U: "#666666",
-      V: "#999999",
+      V: "#757ce8",
       W: "#cccccc",
       X: "#dddddd",
       Y: "#bbbbbb",
@@ -111,11 +120,6 @@ export default function MovieDetails() {
                 {movie?.title ? movie?.title.charAt(0).toUpperCase() : "M"}
               </Avatar>
             }
-            // action={
-            //   <IconButton aria-label="settings">
-            //     <MoreVertOutlined />
-            //   </IconButton>
-            // }
             action={
               <IconButton aria-label="back" onClick={handleBack}>
                 <ArrowBack />
@@ -172,6 +176,14 @@ export default function MovieDetails() {
             <IconButton aria-label="share">
               <Share />
             </IconButton>
+            <IconButton aria-label="save" onClick={toggleSave}>
+              { saved ? (
+                <BookmarkAdded color="primary"/>
+              ) : (
+                <BookmarkAdd/>
+              )}
+            </IconButton>
+            <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
           </CardActions>
         </Card>
       </div>
