@@ -48,7 +48,7 @@ export default function MovieDetails() {
 
   //Method for handle back click
   const handleBack = () => {
-    navigate("/");
+    navigate("/dashboard");
   };
 
   //Method for Avatar Color
