@@ -7,12 +7,21 @@ const apiService = axios.create({
     timeout: 10000, //Timeout after 10 seconds
 });
 
-export const registerUser = async (data) => {
-    try{
-        const response = await apiService.post('/register', data);
-        console.log('response: ', response);
+export const registerUser = async (regData) => {
+    try {
+        const response = await apiService.post('/register', regData);
         return response.data;
     } catch(error) {
+        throw error.response.data;
+    }
+}
+
+export const loginUser = async (loginData) => {
+    try {
+        const response = await apiService.post('/login', loginData);
+        return response.data;
+    } catch(error){
+        console.log('error: ', error);
         throw error.response.data;
     }
 }

@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import { registerUser } from "../Services/authservice";
+import { useNavigate } from 'react-router-dom';
 
 export default function Registration() {
   const [firstName, setFirstName] = useState("");
@@ -23,6 +24,7 @@ export default function Registration() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordSame, setIsPasswordSame] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
@@ -39,13 +41,19 @@ export default function Registration() {
         password: password,
       };
       const response = await registerUser(data1);
+      navigate('/login')
+
     } catch (error) {
       console.log("error: ", error);
     }
   };
 
-  const handleCancel = () => {
-    // setFirstname();
+  const handleClear = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
   };
 
   return (
@@ -125,8 +133,8 @@ export default function Registration() {
                 <Button variant="outlined" onClick={handleRegister}>
                   Signup
                 </Button>
-                <Button variant="outlined" onClick={handleCancel}>
-                  Cancel
+                <Button variant="outlined" onClick={handleClear}>
+                  Clear
                 </Button>
               </div>
               <Link
