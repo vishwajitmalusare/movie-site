@@ -87,7 +87,7 @@ export default function Movies() {
 
   //Methods to handle like movie
   const handleLike = (movie) => {
-    if(isMovieLiked(movie)) {
+    if (isMovieLiked(movie)) {
       setLikedMovies(
         likedMovies.filter((likedmovie) => likedmovie.id !== movie.id)
       );
@@ -99,7 +99,7 @@ export default function Movies() {
   //Methods to check is liked
   const isMovieLiked = (movie) => {
     return likedMovies.some((likeMovie) => likeMovie.id === movie.id);
-  }
+  };
 
   return (
     <>
@@ -137,13 +137,16 @@ export default function Movies() {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites" onClick={() => handleLike(movie)}>
-              {isMovieLiked(movie) ? (
-                <Favorite style={{ color: "red" }} />
-              ) : (
-                <FavoriteBorderOutlined />
-              )}
-            </IconButton>
+              <IconButton
+                aria-label="add to favorites"
+                onClick={() => handleLike(movie)}
+              >
+                {isMovieLiked(movie) ? (
+                  <Favorite style={{ color: "red" }} />
+                ) : (
+                  <FavoriteBorderOutlined />
+                )}
+              </IconButton>
               <IconButton aria-label="share">
                 <Share />
               </IconButton>

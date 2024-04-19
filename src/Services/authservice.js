@@ -19,9 +19,31 @@ export const registerUser = async (regData) => {
 export const loginUser = async (loginData) => {
     try {
         const response = await apiService.post('/login', loginData);
+        localStorage.setItem('token',response.data.token);
         return response.data;
     } catch(error){
         console.log('error: ', error);
         throw error.response.data;
+    }
+}
+
+export const getUser = async () => {
+    const token = localStorage.getItem('token');
+    if(!token) {
+        console.log("Token Not Found");
+        return;
+    }
+
+    try {
+        const response = await apiService.get('/userDetails', {
+            headers: {
+                'Authorization':   `${token}`
+                // 'Authorization':   `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch(error) {
+        console.log("Error in get User Details");
+        return;
     }
 }

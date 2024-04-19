@@ -40,6 +40,7 @@ export default function Login() {
       };
 
       const response = await loginUser(loginData);
+      console.log("Response in Login :- ",response);
       navigate('/dashboard');
     } catch (error) {
       console.log("error: ", error);

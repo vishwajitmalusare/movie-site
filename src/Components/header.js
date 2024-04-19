@@ -8,7 +8,13 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { Avatar, Container, TableRow } from '@mui/material';
+import { getUser } from '../Services/authservice';
+import { useState } from 'react';
 
+
+export default function SearchAppBar() {
+const [user, setUser]= useState({}); 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -23,6 +29,30 @@ const Search = styled('div')(({ theme }) => ({
     width: 'auto',
   },
 }));
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for(i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: { bgcolor: stringToColor(name), },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+}
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -51,7 +81,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar() {
+const handleProfile = async () => {
+  const response = await getUser();
+  setUser(response);
+};
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -103,7 +137,7 @@ export default function SearchAppBar() {
             Upcoming
             {/* <MenuIcon /> */}
           </IconButton>
-          <Search>
+          <Search sx={{ mr: 1 }} >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -112,7 +146,18 @@ export default function SearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          
+          <div 
+          onClick={handleProfile}
+          >
+          <Avatar {...stringAvatar('Vedant Jadahv')}  />
+          {/* <Container>
+            <TableRow>
+
+            </TableRow>
+          </Container> */}
+          </div>
+          {/* with picture 
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" /> */}
         </Toolbar>
       </AppBar>
     </Box>
