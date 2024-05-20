@@ -35,13 +35,13 @@ export const getUser = async () => {
     }
 
     try {
-        const response = await apiService.get('/userDetails', {
+        const response = await apiService.get('/userdetails', {
             headers: {
                 'Authorization':   `${token}`
-                // 'Authorization':   `Bearer ${token}`
             }
         });
-        return response.data;
+
+        return response?.data;
     } catch(error) {
         console.log("Error in get User Details");
         return;

@@ -22,6 +22,8 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [token, setToken] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -40,7 +42,9 @@ export default function Login() {
       };
 
       const response = await loginUser(loginData);
-      console.log("Response in Login :- ",response);
+      console.log("Response in Login :- ", response?.token);
+      setToken(response?.token);
+      setLoggedIn(true);
       navigate('/dashboard');
     } catch (error) {
       console.log("error: ", error);
@@ -104,8 +108,8 @@ export default function Login() {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "center",
-                  gap: "60px",
-                  marginTop: "10px",
+                  gap: "10px",
+                  marginTop: "5px",
                 }}
               >
                 <Button variant="outlined" onClick={handleLogin}>
@@ -126,6 +130,7 @@ export default function Login() {
               >
                 Don't have account ? Please Signup
               </Link>
+
             </div>
           </CardContent>
         </Card>
